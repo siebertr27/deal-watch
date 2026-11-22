@@ -229,6 +229,56 @@
     var saved=localStorage.getItem('dw_zip');
     if(saved && /^\d{5}$/.test(saved)){zipEl.value=saved; if(ZIPS[saved])showZip(ZIPS[saved],saved);}
   }catch(err){}
+  webbtns.forEach(function(b){b.addEventListener('click',function(){var q=(document.getElementById('q').value||'').trim();
+    if(!q){status.textContent='Type a keyword first, then tap a site to search it across the web.';return;}
+    var s=encodeURIComponent(q),u={slickdeals:'https://slickdeals.net/newsearch.php?q='+s+'&searcharea=deals&searchin=first',
+      google:'https://www.google.com/search?tbm=shop&q='+s,
+      camel:'https://camelcamelcamel.com/search?sq='+s,
+      ebay:'https://www.ebay.com/sch/i.html?_nkw='+s}[b.getAttribute('data-site')];
+    window.open(u,'_blank');});});
+
+  var findsCard=document.getElementById('finds'), sortsel=document.getElementById('sortsel');
+  var finds=findsCard?[].slice.call(findsCard.querySelectorAll(':scope > p')):[];
+  var MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function fmtDate(s){var p=s.split('-');return MONTHS[+p[1]-1]+' '+(+p[2]);}
+  finds.forEach(function(p){
+    var dt=p.getAttribute('data-date');
+    if(dt){
+      var old=(Date.now()-new Date(dt+'T12:00:00').getTime())>21*864e5;
+      var tag=document.createElement('span');
+      tag.style.cssText='font-size:12px;color:#94a3b8;margin-left:6px';
+      tag.textContent='\u00b7 seen '+fmtDate(dt)+(old?' \u00b7 stale, verify before driving':'');
+      p.appendChild(tag);
+      if(old){p.style.opacity='0.55';}
+    }
+    var sh=document.createElement('button');
+    sh.textContent='Share';
+    sh.style.cssText='background:#0b1220;color:#7dd3fc;border:1px solid #334155;border-radius:8px;padding:4px 10px;font:inherit;cursor:pointer;font-size:13px;margin-left:8px';
+    sh.addEventListener('click',function(){
+      var txt=p.textContent.replace(/\s+/g,' ').trim();
+      if(navigator.share){navigator.share({title:'Deal watch',text:txt,url:location.href}).catch(function(){});}
+      else if(navigator.clipboard){navigator.clipboard.writeText(txt+' \u2014 '+location.href);
+        status.textContent='Copied \u2014 paste it in a text to share.';}
+      else{status.textContent='Sharing not supported on this device.';}
+    });
+    p.appendChild(sh);
+  });
+  sortsel.addEventListener('change',function(){
+    var mode=sortsel.value;
+    var withMeta=finds.map(function(p){var k=finds.indexOf(p);
+      if(mode==='price'){k=parseFloat(p.getAttribute('data-price')||'99');}
+      else if(mode==='distance'){
+        var key=p.getAttribute('data-store'), z=null;
+        try{z=zipEl.value.trim()||localStorage.getItem('dw_zip')}catch(e){}
+        var s=(key&&z&&ZIPS[z])?STORES.filter(function(x){return x.name.toLowerCase().indexOf(key)>-1})[0]:null;
+        k=s?miles(ZIPS[z],s):999;
+      }
+      return{p:p,k:k};
+    });
+    withMeta.sort(function(a,b){return a.k-b.k;});
+    withMeta.forEach(function(x){findsCard.appendChild(x.p);});
+    status.textContent=mode==='newest'?'Sorted newest first.':mode==='price'?'Sorted price low to high.':'Sorted nearest first \u2014 finds without a tracked store sort last.';
+  });
 })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
@@ -294,56 +344,6 @@
       });
     });
   }
-  webbtns.forEach(function(b){b.addEventListener('click',function(){var q=(document.getElementById('q').value||'').trim();
-    if(!q){status.textContent='Type a keyword first, then tap a site to search it across the web.';return;}
-    var s=encodeURIComponent(q),u={slickdeals:'https://slickdeals.net/newsearch.php?q='+s+'&searcharea=deals&searchin=first',
-      google:'https://www.google.com/search?tbm=shop&q='+s,
-      camel:'https://camelcamelcamel.com/search?sq='+s,
-      ebay:'https://www.ebay.com/sch/i.html?_nkw='+s}[b.getAttribute('data-site')];
-    window.open(u,'_blank');});});
-
-  var findsCard=document.getElementById('finds'), sortsel=document.getElementById('sortsel');
-  var finds=findsCard?[].slice.call(findsCard.querySelectorAll(':scope > p')):[];
-  var MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  function fmtDate(s){var p=s.split('-');return MONTHS[+p[1]-1]+' '+(+p[2]);}
-  finds.forEach(function(p){
-    var dt=p.getAttribute('data-date');
-    if(dt){
-      var old=(Date.now()-new Date(dt+'T12:00:00').getTime())>21*864e5;
-      var tag=document.createElement('span');
-      tag.style.cssText='font-size:12px;color:#94a3b8;margin-left:6px';
-      tag.textContent='\u00b7 seen '+fmtDate(dt)+(old?' \u00b7 stale, verify before driving':'');
-      p.appendChild(tag);
-      if(old){p.style.opacity='0.55';}
-    }
-    var sh=document.createElement('button');
-    sh.textContent='Share';
-    sh.style.cssText='background:#0b1220;color:#7dd3fc;border:1px solid #334155;border-radius:8px;padding:4px 10px;font:inherit;cursor:pointer;font-size:13px;margin-left:8px';
-    sh.addEventListener('click',function(){
-      var txt=p.textContent.replace(/\s+/g,' ').trim();
-      if(navigator.share){navigator.share({title:'Deal watch',text:txt,url:location.href}).catch(function(){});}
-      else if(navigator.clipboard){navigator.clipboard.writeText(txt+' \u2014 '+location.href);
-        status.textContent='Copied \u2014 paste it in a text to share.';}
-      else{status.textContent='Sharing not supported on this device.';}
-    });
-    p.appendChild(sh);
-  });
-  sortsel.addEventListener('change',function(){
-    var mode=sortsel.value;
-    var withMeta=finds.map(function(p){var k=finds.indexOf(p);
-      if(mode==='price'){k=parseFloat(p.getAttribute('data-price')||'99');}
-      else if(mode==='distance'){
-        var key=p.getAttribute('data-store'), z=null;
-        try{z=zipEl.value.trim()||localStorage.getItem('dw_zip')}catch(e){}
-        var s=(key&&z&&ZIPS[z])?STORES.filter(function(x){return x.name.toLowerCase().indexOf(key)>-1})[0]:null;
-        k=s?miles(ZIPS[z],s):999;
-      }
-      return{p:p,k:k};
-    });
-    withMeta.sort(function(a,b){return a.k-b.k;});
-    withMeta.forEach(function(x){findsCard.appendChild(x.p);});
-    status.textContent=mode==='newest'?'Sorted newest first.':mode==='price'?'Sorted price low to high.':'Sorted nearest first \u2014 finds without a tracked store sort last.';
-  });
 })();
 </script>
 </body>
