@@ -354,14 +354,20 @@
   }
 
   var shoplinks=[].slice.call(document.querySelectorAll('.item, #finds > p'));
+  var STORESEARCH=[[ /lowe'?s/i, 'https://www.lowes.com/search?searchTerm='],[ /home depot/i, 'https://www.homedepot.com/s/'],[ /walmart/i, 'https://www.walmart.com/search?q=']];
   shoplinks.forEach(function(it){
-    var nameEl=it.querySelector('.name');
-    if(!nameEl||it.querySelector('.checklink'))return;
+    var oldlink=it.querySelector('.checklink'); if(oldlink) oldlink.remove();
+    var nameEl=it.querySelector('.name'); if(!nameEl) return;
+    function clean(s){return s.replace(/^\d+\.\s*/,'').replace(/\s*\([^)]*\)[.\s]*$/,'').trim();}
+    var href=it.getAttribute('data-url');
+    if(!href){var inlink=it.querySelector('a[href]'); if(inlink&&!inlink.classList.contains('checklink')) href=inlink.href;}
+    if(!href){var blob=nameEl.textContent+' '+it.textContent;
+      for(var i=0;i<STORESEARCH.length;i++){ if(STORESEARCH[i][0].test(blob)){ href=STORESEARCH[i][1]+encodeURIComponent(clean(nameEl.textContent)); break; } }}
+    if(!href){href='https://www.google.com/search?tbm=shop&q='+encodeURIComponent(clean(nameEl.textContent));}
     var a=document.createElement('a');
     a.className='checklink';
     a.textContent='\u00b7 check online';
-    a.href='https://www.google.com/search?tbm=shop&q='+encodeURIComponent(nameEl.textContent.replace(/^\d+\.\s*/,'').replace(/\s*\([^)]*\)[.\s]*$/,'').trim());
-    a.target='_blank'; a.rel='noopener';
+    a.href=href; a.target='_blank'; a.rel='noopener';
     a.style.cssText='color:#7dd3fc;font-size:13px;margin-left:8px';
     it.appendChild(a);
   });
