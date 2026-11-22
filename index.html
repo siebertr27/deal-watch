@@ -45,7 +45,7 @@
 <header>
   <div class="wrap">
     <h1>Deal Watch</h1>
-    <div class="sub">Tech deals front and center, penny lists and deal sources behind them &middot; curated for Richard &middot; <span class="updated">last updated Sat, Nov 21, 2026, 8:50 PM ET &middot; auto-refreshed from the Tue/Fri penny watch</span></div>
+    <div class="sub">Tech deals front and center, penny lists and deal sources behind them &middot; curated for Richard &middot; <span class="updated">last updated Sat, Nov 21, 2026, 8:57 PM ET&middot; auto-refreshed from the Tue/Fri penny watch</span></div>
   </div>
 </header>
 <main class="wrap">
@@ -107,16 +107,19 @@
   <div class="item"><div><span class="name">Keepa &mdash; price history for electronics</span><div class="meta"><a href="https://keepa.com/">keepa.com</a> &mdash; a "sale" is only a deal if it's below what the item usually costs; Keepa shows the whole history</div></div><span class="price">watch</span></div>
 </div>
 
-<h2>Keepa price check</h2>
-<p class="note">Before you call an Amazon "sale" a deal: paste the product link or ASIN and see its full price history, straight from Keepa's free chart feed. No account needed.</p>
+<h2>Price history check</h2>
+<p class="note">Before you call an Amazon "sale" a deal: paste the product link or ASIN and jump straight to its full price history. Keepa stopped serving free charts to other sites, so this opens the chart page itself &mdash; camelcamelcamel (free, no account) or Keepa.</p>
 <div class="card">
   <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
     <input id="keepa-in" type="text" placeholder="Amazon product link or ASIN" style="flex:1;min-width:220px;background:#0b1220;border:1px solid #1e293b;border-radius:8px;color:#e2e8f0;padding:10px 14px;font:inherit">
     <button id="keepa-go" style="background:#1e293b;color:#7dd3fc;border:1px solid #334155;border-radius:8px;padding:10px 16px;font:inherit;cursor:pointer">Show price history</button>
   </div>
   <div id="keepa-out" style="display:none;margin-top:14px;text-align:center">
-    <a id="keepa-link" target="_blank" rel="noopener"><img id="keepa-img" alt="Amazon price history chart from Keepa" style="max-width:100%;border-radius:8px;background:#fff;padding:6px"></a>
-    <div class="meta" style="margin-top:8px">Chart not showing? <a id="keepa-link2" target="_blank" rel="noopener">Open the full history on Keepa</a></div>
+    <div class="meta">Product ID: <b id="keepa-asin"></b></div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px">
+      <a id="camel-go" target="_blank" rel="noopener" style="background:#10b981;color:#04241a;border:1px solid #10b981;border-radius:8px;padding:10px 16px;font:inherit;text-decoration:none">Open price history on camelcamelcamel</a>
+      <a id="keepa-link" target="_blank" rel="noopener" style="background:#1e293b;color:#7dd3fc;border:1px solid #334155;border-radius:8px;padding:10px 16px;font:inherit;text-decoration:none">Open on Keepa</a>
+    </div>
   </div>
   <div id="keepa-err" class="meta" style="display:none;margin-top:10px;color:#f87171">Couldn't read a product ID out of that. Paste the Amazon product page URL (like amazon.com/dp/B0XXXXXXXXX) or just the 10-character ASIN.</div>
 </div>
@@ -394,7 +397,7 @@
 (function(){
   var btn=document.getElementById('keepa-go'), inp=document.getElementById('keepa-in');
   var out=document.getElementById('keepa-out'), err=document.getElementById('keepa-err');
-  var img=document.getElementById('keepa-img'), l1=document.getElementById('keepa-link'), l2=document.getElementById('keepa-link2');
+  var l1=document.getElementById('keepa-link');
   function asin(s){
     s=(s||'').trim();
     var m=s.match(/(?:\/dp\/|\/gp\/product\/|\/gp\/aw\/d\/)([A-Z0-9]{10})/i);
@@ -406,9 +409,9 @@
     var a=asin(inp.value);
     err.style.display='none';
     if(!a){ err.style.display='block'; out.style.display='none'; return; }
-    img.src='https://graph.keepa.com/pricehistory.png?asin='+a;
+    document.getElementById('keepa-asin').textContent=a;
+    document.getElementById('camel-go').href='https://camelcamelcamel.com/product/'+a;
     l1.href='https://keepa.com/#!product/1-'+a;
-    l2.href='https://keepa.com/#!product/1-'+a;
     out.style.display='block';
   }
   btn.addEventListener('click',show);
