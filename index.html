@@ -37,12 +37,24 @@
 <header>
   <div class="wrap">
     <h1>Deal Watch</h1>
-    <div class="sub">Tech deals front and center, penny lists and deal sources behind them &middot; curated for Richard &middot; <span class="updated">last updated Sat, Nov 21, 2026, 7:25 PM ET &middot; auto-refreshed from the Tue/Fri penny watch</span></div>
+    <div class="sub">Tech deals front and center, penny lists and deal sources behind them &middot; curated for Richard &middot; <span class="updated">last updated Sat, Nov 21, 2026, 8:05 PM ET &middot; auto-refreshed from the Tue/Fri penny watch</span></div>
   </div>
 </header>
 <main class="wrap">
 
 <p><b style="color:#f8fafc">How penny shopping works:</b> a "penny item" is discontinued stock the store's system has dropped to $0.01. It rings up for a penny at the register even though the shelf tag still shows the old price &mdash; and stores are supposed to pull it, so a cashier can decline. Scan the barcode (Dollar General app, or the register) before counting on it. A sighting is historical: it tells you what to hunt, not that it's still there.</p>
+
+<section class="card" id="searchbar" style="margin:18px 0 0">
+  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+    <input id="q" type="search" placeholder="Search deals &mdash; cooler, coax, toilet&hellip;" style="flex:1;min-width:200px;background:#0b1220;border:1px solid #1e293b;border-radius:8px;color:#e2e8f0;padding:10px 14px;font:inherit">
+    <form id="zipform" style="display:flex;gap:8px;margin:0">
+      <input id="zip" inputmode="numeric" maxlength="5" placeholder="ZIP" style="width:110px;background:#0b1220;border:1px solid #1e293b;border-radius:8px;color:#e2e8f0;padding:10px 14px;font:inherit">
+      <button type="submit" style="background:#1e293b;color:#7dd3fc;border:1px solid #334155;border-radius:8px;padding:10px 16px;font:inherit;cursor:pointer">Near me</button>
+    </form>
+  </div>
+  <p id="searchstatus" class="note" style="margin:10px 0 0">Type to filter every list on this page. Enter a ZIP to see how far each tracked Lowe's store is.</p>
+  <p id="zipresult" class="note" style="margin:6px 0 0;display:none"></p>
+</section>
 
 <h2>This week&rsquo;s finds</h2>
 <div class="card">
@@ -135,5 +147,59 @@
   <p>Sightings are historical, store-specific and never guaranteed. The register is the final word; be polite, never hide items or peel tags. Sources: ClearanceFinds, Pennypinchin Mom, The Freebie Guy, Penny Tree, Penny (pennydeals.app), Endless, Penny Recon.</p>
 </footer>
 </main>
+<script>
+(function(){
+  var q=document.getElementById('q'), zipform=document.getElementById('zipform'),
+      zipEl=document.getElementById('zip'), status=document.getElementById('searchstatus'),
+      zipresult=document.getElementById('zipresult');
+  var rows=[].slice.call(document.querySelectorAll('.item, .card > p, .res'));
+  var DEFAULT=status.textContent;
+  q.addEventListener('input',function(){
+    var t=q.value.trim().toLowerCase(), n=0;
+    rows.forEach(function(r){
+      var hit=!t||r.textContent.toLowerCase().indexOf(t)>-1;
+      r.style.display=hit?'':'none'; if(hit)n++;
+    });
+    status.textContent=t? n+(n===1?' match':' matches')+' for "'+t+'"':DEFAULT;
+  });
+  var STORES=[
+    {name:"Clarkstown/Nanuet Lowe's #2249",lat:41.10944,lng:-74.023887},
+    {name:"Newburgh Lowe's #1584",lat:41.503404,lng:-74.072918},
+    {name:"Middletown Lowe's #540",lat:41.45836,lng:-74.373487}
+  ];
+  var ZIPS={"10992":[41.4237,-74.1601],"10940":[41.4512,-74.4701],"12550":[41.5372,-74.0526],"10954":[41.0977,-74.0109],"10941":[41.4886,-74.345],"10917":[41.3268,-74.122],"10963":[41.4818,-74.5294],"10901":[41.1177,-74.1241]};
+  function miles(c,s){var R=3958.8,D=Math.PI/180,dLa=(s.lat-c[0])*D,dLo=(s.lng-c[1])*D;
+    var a=Math.sin(dLa/2)*Math.sin(dLa/2)+Math.cos(c[0]*D)*Math.cos(s.lat*D)*Math.sin(dLo/2)*Math.sin(dLo/2);
+    return 2*R*Math.asin(Math.sqrt(a));}
+  function showZip(c,z){
+    var d=STORES.map(function(s){return{name:s.name,d:miles(c,s)}}).sort(function(a,b){return a.d-b.d});
+    var parts=d.map(function(x){return x.name+' '+x.d.toFixed(0)+' mi'});
+    zipresult.style.display='';
+    zipresult.innerHTML='From <b style="color:#f8fafc">'+z+'</b> (as the crow flies): '+parts.join(' &middot; ')+' &mdash; Dollar General, Family Dollar and CVS penny lists run chain-wide, so the nearest store of those chains carries the same list.';
+  }
+  zipform.addEventListener('submit',function(e){
+    e.preventDefault();
+    var z=zipEl.value.trim();
+    if(!/^\d{5}$/.test(z)){zipresult.style.display='';zipresult.textContent='Enter a 5-digit ZIP.';return;}
+    try{localStorage.setItem('dw_zip',z)}catch(err){}
+    var c=ZIPS[z];
+    if(c){showZip(c,z);return;}
+    fetch('https://api.zippopotam.us/us/'+z).then(function(r){
+      if(!r.ok)throw new Error('bad');
+      return r.json();
+    }).then(function(j){
+      var p=j.places[0]; c=[parseFloat(p.latitude),parseFloat(p.longitude)];
+      ZIPS[z]=c; showZip(c,z+' ('+p['place name']+', '+p['state abbreviation']+')');
+    }).catch(function(){
+      zipresult.style.display='';
+      zipresult.textContent="Couldn't look up that ZIP right now \u2014 try again in a minute.";
+    });
+  });
+  try{
+    var saved=localStorage.getItem('dw_zip');
+    if(saved && /^\d{5}$/.test(saved)){zipEl.value=saved; if(ZIPS[saved])showZip(ZIPS[saved],saved);}
+  }catch(err){}
+})();
+</script>
 </body>
 </html>
