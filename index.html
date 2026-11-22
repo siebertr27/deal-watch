@@ -149,6 +149,12 @@
 </div>
 <p class="note">Plus a back-to-school <b style="color:#e2e8f0">hardware</b> block with 132 UPCs identified so far, and the Nov 17 list added food items. Pro tip from the community: DG stores in a remodel run their markdown waves on a ~25-day Sunday clock instead of Tuesday.</p>
 
+<h2>Walmart &mdash; clearance &amp; hidden markdowns</h2>
+<div class="card">
+  <p><span class="name" style="color:#e2e8f0">Walmart runs clearance, not pennies.</span> Markdowns show as yellow "reduced" stickers, and unadvertised hidden clearance can ring at 1&cent;&ndash;$3 when the barcode scans lower than the tag. There is no official list: it's a hunt. The free route is the Walmart app &mdash; open any clearance sticker's barcode scanner to see the real price before you commit.</p>
+  <p class="note">Start at <a href="https://www.walmart.com/search?q=clearance">walmart.com's clearance search</a>. The Tue/Fri watch checks Walmart and Target clearance alongside the penny lists from the next run.</p>
+</div>
+
 <h2>Family Dollar &amp; Dollar Tree</h2>
 <p>No published schedule like DG &mdash; markdown timing varies by store and district, so these stay hunt lists. Family Dollar and Dollar Tree <i>combo</i> stores shuffle inventory often and are a common place for pennies to surface.</p>
 <div class="card">
@@ -344,6 +350,19 @@
       });
     });
   }
+
+  var shoplinks=[].slice.call(document.querySelectorAll('.item, #finds > p'));
+  shoplinks.forEach(function(it){
+    var nameEl=it.querySelector('.name');
+    if(!nameEl||it.querySelector('.checklink'))return;
+    var a=document.createElement('a');
+    a.className='checklink';
+    a.textContent='\u00b7 check online';
+    a.href='https://www.google.com/search?tbm=shop&q='+encodeURIComponent(nameEl.textContent.replace(/^\d+\.\s*/,'').replace(/\s*\([^)]*\)[.\s]*$/,'').trim());
+    a.target='_blank'; a.rel='noopener';
+    a.style.cssText='color:#7dd3fc;font-size:13px;margin-left:8px';
+    it.appendChild(a);
+  });
 })();
 </script>
 </body>
