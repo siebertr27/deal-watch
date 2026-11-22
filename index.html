@@ -69,6 +69,14 @@
     <button class="webbtn" data-site="camel" style="background:#0b1220;color:#7dd3fc;border:1px solid #334155;border-radius:8px;padding:8px 12px;font:inherit;cursor:pointer">Camelcamelcamel</button>
     <button class="webbtn" data-site="ebay" style="background:#0b1220;color:#7dd3fc;border:1px solid #334155;border-radius:8px;padding:8px 12px;font:inherit;cursor:pointer">eBay</button>
   </div>
+  <div style="display:flex;gap:8px;align-items:center;margin-top:10px">
+    <label class="note" for="sortsel" style="margin:0">Sort finds:</label>
+    <select id="sortsel" style="background:#0b1220;border:1px solid #334155;border-radius:8px;color:#e2e8f0;padding:8px 12px;font:inherit">
+      <option value="newest">Newest</option>
+      <option value="price">Price low to high</option>
+      <option value="distance">Nearest (needs ZIP)</option>
+    </select>
+  </div>
 </section>
 
 <section class="card" id="watchcard" style="display:none">
@@ -78,11 +86,11 @@
 </section>
 
 <h2>This week&rsquo;s finds</h2>
-<div class="card">
-  <p><span class="name" style="color:#e2e8f0">1. Southwire RG6 coax at 4&cent;/ft (Lowe's).</span> Real cable for jobs at a rate you'll never see again, and the nearest named sighting to you is Clarkstown/Nanuet #2249. Call ahead or scan before driving.</p>
-  <p><span class="name" style="color:#e2e8f0">2. Igloo Playmate 22-can cooler at 1&cent; (Dollar General).</span> Sells for ~$25 at Walmart; any DG Tuesday morning hunt is worth checking the cooler aisle.</p>
-  <p><span class="name" style="color:#e2e8f0">3. True Living shovel, rake and tiller at 1&cent; (Dollar General).</span> Basic yard tools for the truck, effectively free.</p>
-  <p><span class="name" style="color:#e2e8f0">4. Glacier Bay N2316 toilet at 1&cent; (Home Depot).</span> A $200+ toilet for a penny if a wave is still live near you &mdash; scan the boxes in the overhead at the bath aisle, nearest sources on the ZIP-search link in the Home Depot section.</p>
+<div class="card" id="finds">
+  <p data-date="2026-10-27" data-price="0.04" data-store="clarkstown"><span class="name" style="color:#e2e8f0">1. Southwire RG6 coax at 4&cent;/ft (Lowe's).</span> Real cable for jobs at a rate you'll never see again, and the nearest named sighting to you is Clarkstown/Nanuet #2249. Call ahead or scan before driving.</p>
+  <p data-date="2026-11-20" data-price="0.01" data-store=""><span class="name" style="color:#e2e8f0">2. Igloo Playmate 22-can cooler at 1&cent; (Dollar General).</span> Sells for ~$25 at Walmart; any DG Tuesday morning hunt is worth checking the cooler aisle.</p>
+  <p data-date="2026-11-20" data-price="0.01" data-store=""><span class="name" style="color:#e2e8f0">3. True Living shovel, rake and tiller at 1&cent; (Dollar General).</span> Basic yard tools for the truck, effectively free.</p>
+  <p data-date="2026-11-16" data-price="0.01" data-store=""><span class="name" style="color:#e2e8f0">4. Glacier Bay N2316 toilet at 1&cent; (Home Depot).</span> A $200+ toilet for a penny if a wave is still live near you &mdash; scan the boxes in the overhead at the bath aisle, nearest sources on the ZIP-search link in the Home Depot section.</p>
 </div>
 
 
@@ -293,6 +301,49 @@
       camel:'https://camelcamelcamel.com/search?sq='+s,
       ebay:'https://www.ebay.com/sch/i.html?_nkw='+s}[b.getAttribute('data-site')];
     window.open(u,'_blank');});});
+
+  var findsCard=document.getElementById('finds'), sortsel=document.getElementById('sortsel');
+  var finds=findsCard?[].slice.call(findsCard.querySelectorAll(':scope > p')):[];
+  var MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function fmtDate(s){var p=s.split('-');return MONTHS[+p[1]-1]+' '+(+p[2]);}
+  finds.forEach(function(p){
+    var dt=p.getAttribute('data-date');
+    if(dt){
+      var old=(Date.now()-new Date(dt+'T12:00:00').getTime())>21*864e5;
+      var tag=document.createElement('span');
+      tag.style.cssText='font-size:12px;color:#94a3b8;margin-left:6px';
+      tag.textContent='\u00b7 seen '+fmtDate(dt)+(old?' \u00b7 stale, verify before driving':'');
+      p.appendChild(tag);
+      if(old){p.style.opacity='0.55';}
+    }
+    var sh=document.createElement('button');
+    sh.textContent='Share';
+    sh.style.cssText='background:#0b1220;color:#7dd3fc;border:1px solid #334155;border-radius:8px;padding:4px 10px;font:inherit;cursor:pointer;font-size:13px;margin-left:8px';
+    sh.addEventListener('click',function(){
+      var txt=p.textContent.replace(/\s+/g,' ').trim();
+      if(navigator.share){navigator.share({title:'Deal watch',text:txt,url:location.href}).catch(function(){});}
+      else if(navigator.clipboard){navigator.clipboard.writeText(txt+' \u2014 '+location.href);
+        status.textContent='Copied \u2014 paste it in a text to share.';}
+      else{status.textContent='Sharing not supported on this device.';}
+    });
+    p.appendChild(sh);
+  });
+  sortsel.addEventListener('change',function(){
+    var mode=sortsel.value;
+    var withMeta=finds.map(function(p){var k=finds.indexOf(p);
+      if(mode==='price'){k=parseFloat(p.getAttribute('data-price')||'99');}
+      else if(mode==='distance'){
+        var key=p.getAttribute('data-store'), z=null;
+        try{z=zipEl.value.trim()||localStorage.getItem('dw_zip')}catch(e){}
+        var s=(key&&z&&ZIPS[z])?STORES.filter(function(x){return x.name.toLowerCase().indexOf(key)>-1})[0]:null;
+        k=s?miles(ZIPS[z],s):999;
+      }
+      return{p:p,k:k};
+    });
+    withMeta.sort(function(a,b){return a.k-b.k;});
+    withMeta.forEach(function(x){findsCard.appendChild(x.p);});
+    status.textContent=mode==='newest'?'Sorted newest first.':mode==='price'?'Sorted price low to high.':'Sorted nearest first \u2014 finds without a tracked store sort last.';
+  });
 })();
 </script>
 </body>
