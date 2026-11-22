@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Deal Watch — Penny Lists &amp; Deals</title>
+<meta name="theme-color" content="#0b1220">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
 <style>
   :root{color-scheme:dark}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -32,12 +35,17 @@
   footer{border-top:1px solid #1e293b;margin-top:40px;padding-top:16px;color:#64748b;font-size:.85rem}
   .updated{color:#4ade80}
 </style>
+<style>
+.watchbtn{background:#1e293b;color:#94a3b8;border:1px solid #334155;border-radius:6px;font-size:.75rem;padding:3px 10px;cursor:pointer;margin-top:6px}
+.watchbtn.on{color:#4ade80;border-color:#2563eb}
+.upcline{display:block;cursor:pointer;margin-top:6px}
+</style>
 </head>
 <body>
 <header>
   <div class="wrap">
     <h1>Deal Watch</h1>
-    <div class="sub">Tech deals front and center, penny lists and deal sources behind them &middot; curated for Richard &middot; <span class="updated">last updated Sat, Nov 21, 2026, 8:05 PM ET &middot; auto-refreshed from the Tue/Fri penny watch</span></div>
+    <div class="sub">Tech deals front and center, penny lists and deal sources behind them &middot; curated for Richard &middot; <span class="updated">last updated Sat, Nov 21, 2026, 8:15 PM ET &middot; auto-refreshed from the Tue/Fri penny watch</span></div>
   </div>
 </header>
 <main class="wrap">
@@ -54,6 +62,12 @@
   </div>
   <p id="searchstatus" class="note" style="margin:10px 0 0">Type to filter every list on this page. Enter a ZIP to see how far each tracked Lowe's store is.</p>
   <p id="zipresult" class="note" style="margin:6px 0 0;display:none"></p>
+</section>
+
+<section class="card" id="watchcard" style="display:none">
+  <b style="color:#f8fafc">Your watchlist</b>
+  <p class="note" style="margin:4px 0 8px">Saved on this device only. Text Fo what you're hunting and the Tue/Fri watch chases it across the lists and pings you when it surfaces.</p>
+  <div id="watchlist"></div>
 </section>
 
 <h2>This week&rsquo;s finds</h2>
@@ -199,6 +213,71 @@
     var saved=localStorage.getItem('dw_zip');
     if(saved && /^\d{5}$/.test(saved)){zipEl.value=saved; if(ZIPS[saved])showZip(ZIPS[saved],saved);}
   }catch(err){}
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script>
+(function(){
+  function getWatch(){try{return JSON.parse(localStorage.getItem('dw_watch')||'[]')}catch(e){return[]}}
+  function setWatch(w){try{localStorage.setItem('dw_watch',JSON.stringify(w))}catch(e){} renderWatch()}
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+  function upcIn(el){var m=(el.textContent||'').match(/\b\d{12,13}\b/g);return m?m[0]:null}
+  var items=[].slice.call(document.querySelectorAll('main .item'));
+
+  var card=document.getElementById('watchcard'), list=document.getElementById('watchlist');
+  function renderWatch(){
+    var w=getWatch();
+    if(!card) return;
+    if(!w.length){card.style.display='none'; list.innerHTML=''; return;}
+    card.style.display='';
+    list.innerHTML='';
+    w.forEach(function(it,i){
+      var row=document.createElement('div'); row.className='wlrow item';
+      var left=document.createElement('div');
+      left.innerHTML='<span class="name">'+esc(it.name)+'</span>'+(it.upc?'<div class="meta">UPC '+it.upc+'</div>':'');
+      var btn=document.createElement('button'); btn.className='watchbtn'; btn.textContent='remove';
+      btn.onclick=function(){var cur=getWatch(); cur.splice(i,1); setWatch(cur);};
+      row.appendChild(left); row.appendChild(btn);
+      list.appendChild(row);
+    });
+  }
+  renderWatch();
+
+  items.forEach(function(it){
+    var nameEl=it.querySelector('.name'); if(!nameEl) return;
+    var meta=it.querySelector('.meta');
+    var holder=meta?meta.parentNode:it;
+    var entry={name:nameEl.textContent.trim().slice(0,80), upc:upcIn(it)};
+    var btn=document.createElement('button'); btn.className='watchbtn'; btn.textContent='watch';
+    function refresh(){var w=getWatch(); var on=w.some(function(x){return x.name===entry.name}); btn.classList.toggle('on',on); btn.textContent=on?'watching':'watch';}
+    btn.onclick=function(){
+      var w=getWatch();
+      var idx=w.findIndex(function(x){return x.name===entry.name});
+      if(idx>-1){w.splice(idx,1);}else{w.push(entry);}
+      setWatch(w); refresh();
+    };
+    refresh();
+    holder.appendChild(btn);
+  });
+
+  if(window.JsBarcode){
+    var seen={};
+    items.forEach(function(it){
+      var meta=it.querySelector('.meta'); if(!meta) return;
+      var codes=(meta.textContent.match(/\b\d{12,13}\b/g)||[]);
+      codes.forEach(function(code){
+        if(seen[code]) return; seen[code]=1;
+        try{
+          var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+          svg.className='upcline';
+          JsBarcode(svg, code, {format: code.length===13?'EAN13':'UPC', width:1.1, height:34, fontSize:10, margin:2, background:'#111a2e', lineColor:'#7dd3fc'});
+          svg.title='Tap to copy UPC '+code;
+          svg.addEventListener('click',function(){if(navigator.clipboard)navigator.clipboard.writeText(code);});
+          meta.appendChild(svg);
+        }catch(e){}
+      });
+    });
+  }
 })();
 </script>
 </body>
