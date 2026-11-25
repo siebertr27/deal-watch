@@ -10,36 +10,58 @@
 <style>
   :root{color-scheme:dark}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:#0b1220;color:#cbd5e1;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding:0 0 64px}
-  .wrap{max-width:860px;margin:0 auto;padding:0 20px}
-  header{background:#0b1220;border-bottom:1px solid #1e293b;padding:28px 0 22px;margin-bottom:8px}
-  h1{color:#f8fafc;font-size:1.7rem;letter-spacing:-.02em}
-  .sub{color:#94a3b8;font-size:.95rem;margin-top:4px}
-  h2{color:#f8fafc;font-size:1.25rem;margin:36px 0 6px}
-  h3{color:#e2e8f0;font-size:1rem;margin:18px 0 2px}
-  p{margin:8px 0}
+  html{scroll-behavior:smooth}
+  body{background:#070a13;color:#c3ccdc;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding:0 0 72px}
+  .wrap{max-width:900px;margin:0 auto;padding:0 22px}
+  header{position:sticky;top:0;z-index:20;background:rgba(7,10,19,.82);backdrop-filter:blur(12px);border-bottom:1px solid #1c2438;padding:20px 0 16px}
+  h1{font-size:1.9rem;font-weight:800;letter-spacing:-.03em;background:linear-gradient(92deg,#7dd3fc 0%,#a78bfa 55%,#f0abfc 100%);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
+  .sub{color:#7d8aa5;font-size:.92rem;margin-top:4px}
+  .updated{color:#34d399}
+  main.wrap{padding-top:26px}
+  h2{color:#f1f5fb;font-size:1.3rem;font-weight:700;letter-spacing:-.015em;margin:42px 0 10px;display:flex;align-items:center;gap:10px}
+  h2::before{content:"";display:inline-block;width:4px;height:22px;border-radius:4px;background:linear-gradient(180deg,#38bdf8,#818cf8);flex:none}
+  h3{color:#dbe3f0;font-size:1.02rem;margin:20px 0 2px}
+  p{margin:10px 0}
   a{color:#7dd3fc;text-decoration:none}
-  a:hover{text-decoration:underline}
-  .card{background:#111a2e;border:1px solid #1e293b;border-radius:10px;padding:16px 18px;margin:14px 0}
-  .price{color:#4ade80;font-weight:700;font-size:.95rem;white-space:nowrap}
-  .item{display:flex;gap:14px;justify-content:space-between;align-items:baseline;border-bottom:1px solid #1e293b;padding:10px 0}
+  a:hover{text-decoration:underline;text-underline-offset:3px}
+  .card{background:linear-gradient(180deg,#101627,#0d1322);border:1px solid #1d2740;border-radius:14px;padding:18px 20px;margin:16px 0;box-shadow:0 8px 28px rgba(2,6,18,.45)}
+  .item{display:flex;gap:16px;justify-content:space-between;align-items:baseline;border-bottom:1px solid #182036;padding:11px 6px;border-radius:8px}
+  .item:hover{background:#131c31}
   .item:last-child{border-bottom:none}
-  .item .name{color:#e2e8f0}
-  .meta{color:#64748b;font-size:.85rem}
-  .pill{display:inline-block;background:#1e293b;color:#94a3b8;border-radius:999px;font-size:.75rem;padding:2px 10px;margin-left:8px;vertical-align:middle}
-  .off{display:inline-block;background:#064e3b;color:#4ade80;border-radius:999px;font-size:.72rem;padding:1px 9px;margin-left:8px;vertical-align:middle}
-  .note{color:#94a3b8;font-size:.9rem}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:14px}
-  .res{background:#111a2e;border:1px solid #1e293b;border-radius:10px;padding:14px 16px}
-  .res b{color:#f8fafc;display:block}
-  .res span{color:#94a3b8;font-size:.9rem}
-  footer{border-top:1px solid #1e293b;margin-top:40px;padding-top:16px;color:#64748b;font-size:.85rem}
-  .updated{color:#4ade80}
-</style>
-<style>
-.watchbtn{background:#1e293b;color:#94a3b8;border:1px solid #334155;border-radius:6px;font-size:.75rem;padding:3px 10px;cursor:pointer;margin-top:6px}
-.watchbtn.on{color:#4ade80;border-color:#2563eb}
-.upcline{display:block;cursor:pointer;margin-top:6px}
+  .item .name{color:#e8edf7;font-weight:600}
+  .price{color:#4ade80;font-weight:800;font-size:1rem;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .meta{color:#6b7893;font-size:.84rem;margin-top:2px}
+  .pill{display:inline-block;background:#1d2740;color:#93a1bb;border-radius:999px;font-size:.74rem;padding:2px 10px;margin-left:8px;vertical-align:middle}
+  .off{display:inline-block;background:rgba(16,185,129,.12);color:#4ade80;border:1px solid rgba(52,211,153,.35);border-radius:999px;font-size:.72rem;font-weight:700;padding:1px 9px;margin-left:8px;vertical-align:middle}
+  .note{color:#7d8aa5;font-size:.9rem}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:16px}
+  .res{background:#101627;border:1px solid #1d2740;border-radius:12px;padding:15px 17px;transition:border-color .15s}
+  .res:hover{border-color:#334768}
+  .res b{color:#f1f5fb;display:block;margin-bottom:3px}
+  .res span{color:#7d8aa5;font-size:.89rem}
+  footer{border-top:1px solid #1c2438;margin-top:48px;padding-top:18px;color:#5b6880;font-size:.85rem}
+  /* toolbar + watch buttons (override legacy inline styles) */
+  #searchbar{border-radius:14px}
+  #q,#zip,#keepa-in,.card input[type=text],.card input[type=search],.card input[type=number]{
+    background:#0a0f1d!important;border:1px solid #2a3550!important;border-radius:10px!important;color:#e8edf7!important;padding:11px 14px!important;font:inherit!important;outline:none!important;transition:border-color .15s}
+  #q:focus,#zip:focus,#keepa-in:focus{border-color:#38bdf8!important}
+  .card button,.webbtn,#sortsel{
+    background:#141d33!important;color:#bfd3ef!important;border:1px solid #2a3550!important;border-radius:10px!important;padding:9px 14px!important;font:inherit!important;cursor:pointer!important;transition:all .15s}
+  .card button:hover,.webbtn:hover{border-color:#38bdf8!important;color:#e8f6ff!important;background:#182342!important}
+  .card button[type=submit]{background:#0e7490!important;border-color:#0891b2!important;color:#f0feff!important;font-weight:700}
+  .card button[type=submit]:hover{background:#0891b2!important}
+  #sortsel{padding:9px 12px!important}
+  .watchbtn{background:#141d33;color:#93a1bb;border:1px solid #2a3550;border-radius:8px;font-size:.75rem;padding:4px 11px;cursor:pointer;margin-top:6px;transition:all .15s}
+  .watchbtn:hover{border-color:#38bdf8}
+  .watchbtn.on{color:#4ade80;border-color:#10b981;background:rgba(16,185,129,.08)}
+  .upcline{display:block;cursor:pointer;margin-top:6px}
+  .upcline:hover{color:#7dd3fc}
+  @media (max-width:560px){
+    h1{font-size:1.5rem}
+    .item{flex-direction:column;gap:4px;align-items:flex-start}
+    .price{font-size:.95rem}
+    .card{padding:14px 15px}
+  }
 </style>
 </head>
 <body>
