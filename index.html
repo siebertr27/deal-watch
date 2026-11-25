@@ -4,65 +4,58 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Deal Watch — Penny Lists &amp; Deals</title>
-<meta name="theme-color" content="#0b1220">
+<meta name="theme-color" content="#fffefb">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
-  :root{color-scheme:dark}
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{background:#070a13;color:#c3ccdc;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding:0 0 72px}
-  .wrap{max-width:900px;margin:0 auto;padding:0 22px}
-  header{position:sticky;top:0;z-index:20;background:rgba(7,10,19,.82);backdrop-filter:blur(12px);border-bottom:1px solid #1c2438;padding:20px 0 16px}
-  h1{font-size:1.9rem;font-weight:800;letter-spacing:-.03em;background:linear-gradient(92deg,#7dd3fc 0%,#a78bfa 55%,#f0abfc 100%);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
-  .sub{color:#7d8aa5;font-size:.92rem;margin-top:4px}
-  .updated{color:#34d399}
-  main.wrap{padding-top:26px}
-  h2{color:#f1f5fb;font-size:1.3rem;font-weight:700;letter-spacing:-.015em;margin:42px 0 10px;display:flex;align-items:center;gap:10px}
-  h2::before{content:"";display:inline-block;width:4px;height:22px;border-radius:4px;background:linear-gradient(180deg,#38bdf8,#818cf8);flex:none}
-  h3{color:#dbe3f0;font-size:1.02rem;margin:20px 0 2px}
-  p{margin:10px 0}
-  a{color:#7dd3fc;text-decoration:none}
-  a:hover{text-decoration:underline;text-underline-offset:3px}
-  .card{background:linear-gradient(180deg,#101627,#0d1322);border:1px solid #1d2740;border-radius:14px;padding:18px 20px;margin:16px 0;box-shadow:0 8px 28px rgba(2,6,18,.45)}
-  .item{display:flex;gap:16px;justify-content:space-between;align-items:baseline;border-bottom:1px solid #182036;padding:11px 6px;border-radius:8px}
-  .item:hover{background:#131c31}
+  body{background:#f6f3ee;color:#292420;font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding:0 0 64px}
+  .wrap{max-width:880px;margin:0 auto;padding:0 20px}
+  header{padding:26px 0 14px;border-bottom:3px double #292420}
+  h1{font-family:Georgia,'Times New Roman',serif;font-size:2.1rem;font-weight:700;letter-spacing:-.02em;color:#1c1917}
+  .sub{color:#6f675c;font-size:.9rem;margin-top:5px}
+  .updated{color:#3f6212}
+  nav{padding:10px 0;border-bottom:1px solid #e3ddd2;font-size:.86rem}
+  nav a{color:#1a56db;margin-right:14px;text-decoration:none}
+  nav a:hover{text-decoration:underline}
+  main.wrap{padding-top:20px}
+  h2{font-size:1.18rem;font-weight:700;color:#1c1917;margin:34px 0 8px;padding-bottom:6px;border-bottom:1px solid #e3ddd2}
+  h3{font-size:.98rem;font-weight:700;color:#292420;margin:16px 0 2px}
+  p{margin:9px 0}
+  a{color:#1a56db;text-decoration:none}
+  a:hover{text-decoration:underline}
+  .card{background:#fffefb;border:1px solid #e3ddd2;border-radius:4px;padding:14px 18px;margin:12px 0}
+  .item{display:flex;gap:14px;justify-content:space-between;align-items:baseline;border-bottom:1px solid #eee9df;padding:10px 2px}
   .item:last-child{border-bottom:none}
-  .item .name{color:#e8edf7;font-weight:600}
-  .price{color:#4ade80;font-weight:800;font-size:1rem;white-space:nowrap;font-variant-numeric:tabular-nums}
-  .meta{color:#6b7893;font-size:.84rem;margin-top:2px}
-  .pill{display:inline-block;background:#1d2740;color:#93a1bb;border-radius:999px;font-size:.74rem;padding:2px 10px;margin-left:8px;vertical-align:middle}
-  .off{display:inline-block;background:rgba(16,185,129,.12);color:#4ade80;border:1px solid rgba(52,211,153,.35);border-radius:999px;font-size:.72rem;font-weight:700;padding:1px 9px;margin-left:8px;vertical-align:middle}
-  .note{color:#8e9ab4;font-size:.9rem}
-  label.note{white-space:nowrap;flex:none}
-  #sortsel{max-width:320px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:16px}
-  .res{background:#101627;border:1px solid #1d2740;border-radius:12px;padding:15px 17px;transition:border-color .15s}
-  .res:hover{border-color:#334768}
-  .res b{color:#f1f5fb;display:block;margin-bottom:3px}
-  .res span{color:#7d8aa5;font-size:.89rem}
-  footer{border-top:1px solid #1c2438;margin-top:48px;padding-top:18px;color:#5b6880;font-size:.85rem}
-  /* toolbar + watch buttons (override legacy inline styles) */
-  #searchbar{border-radius:14px}
+  .item:hover{background:#faf7f1}
+  .item .name{color:#1c1917;font-weight:600}
+  .price{color:#b3261e;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .meta{color:#6f675c;font-size:.84rem;margin-top:2px}
+  .off{color:#b3261e;font-size:.78rem;font-weight:600;margin-left:6px;white-space:nowrap}
+  .note{color:#6f675c;font-size:.9rem}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin-top:14px}
+  .res{background:#fffefb;border:1px solid #e3ddd2;border-radius:4px;padding:12px 14px}
+  .res b{color:#1c1917;display:block;margin-bottom:2px}
+  .res span{color:#6f675c;font-size:.88rem}
+  footer{border-top:1px solid #e3ddd2;margin-top:44px;padding-top:14px;color:#6f675c;font-size:.84rem}
   #q,#zip,#keepa-in,.card input[type=text],.card input[type=search],.card input[type=number]{
-    background:#0a0f1d!important;border:1px solid #2a3550!important;border-radius:10px!important;color:#e8edf7!important;padding:11px 14px!important;font:inherit!important;outline:none!important;transition:border-color .15s}
-  #q:focus,#zip:focus,#keepa-in:focus{border-color:#38bdf8!important}
+    background:#fffefb!important;border:1px solid #c9c2b6!important;border-radius:4px!important;color:#292420!important;padding:9px 12px!important;font:inherit!important;outline:none!important}
+  #q:focus,#zip:focus,#keepa-in:focus{border-color:#1a56db!important}
   .card button,.webbtn,#sortsel{
-    background:#141d33!important;color:#bfd3ef!important;border:1px solid #2a3550!important;border-radius:10px!important;padding:9px 14px!important;font:inherit!important;cursor:pointer!important;transition:all .15s}
-  .card button:hover,.webbtn:hover{border-color:#38bdf8!important;color:#e8f6ff!important;background:#182342!important}
-  .card button[type=submit]{background:#0e7490!important;border-color:#0891b2!important;color:#f0feff!important;font-weight:700}
-  .card button[type=submit]:hover{background:#0891b2!important}
-  #sortsel{padding:9px 12px!important}
-  .watchbtn{background:#141d33;color:#93a1bb;border:1px solid #2a3550;border-radius:8px;font-size:.75rem;padding:4px 11px;cursor:pointer;margin-top:6px;transition:all .15s}
-  .watchbtn:hover{border-color:#38bdf8}
-  .watchbtn.on{color:#4ade80;border-color:#10b981;background:rgba(16,185,129,.08)}
+    background:#f1ede5!important;color:#292420!important;border:1px solid #c9c2b6!important;border-radius:4px!important;padding:8px 13px!important;font:inherit!important;cursor:pointer!important}
+  .card button:hover,.webbtn:hover{border-color:#292420!important}
+  .card button[type=submit]{background:#292420!important;border-color:#292420!important;color:#fffefb!important;font-weight:600}
+  #sortsel{max-width:320px!important;padding:8px 10px!important}
+  .watchbtn{background:#f1ede5;color:#6f675c;border:1px solid #c9c2b6;border-radius:3px;font-size:.74rem;padding:3px 10px;cursor:pointer;margin-top:6px}
+  .watchbtn:hover{border-color:#292420}
+  .watchbtn.on{color:#1a7f37;border-color:#1a7f37}
   .upcline{display:block;cursor:pointer;margin-top:6px}
-  .upcline:hover{color:#7dd3fc}
+  .upcline:hover{color:#1a56db}
   @media (max-width:560px){
-    h1{font-size:1.5rem}
-    .item{flex-direction:column;gap:4px;align-items:flex-start}
-    .price{font-size:.95rem}
-    .card{padding:14px 15px}
+    h1{font-size:1.6rem}
+    .item{flex-direction:column;gap:3px;align-items:flex-start}
+    .card{padding:12px 13px}
+    nav a{display:inline-block;margin-right:10px}
   }
 </style>
 </head>
@@ -73,30 +66,33 @@
     <div class="sub">Tech deals front and center, penny lists and deal sources behind them &middot; curated for Richard &middot; <span class="updated">last updated Wed, Nov 25, 2026, 9:05 AM ET &middot; auto-refreshed from the Tue/Fri penny watch</span></div>
   </div>
 </header>
+<nav><div class="wrap">
+  <a href="#finds">This week&rsquo;s finds</a><a href="#onsale">On sale now</a><a href="#drops">Major price drops</a><a href="#lowes">Lowe&rsquo;s</a><a href="#homedepot">Home Depot</a><a href="#dg">Dollar General</a><a href="#walmart">Walmart</a><a href="#tech">Tech deals</a><a href="#keepa">Price history</a>
+</div></nav>
 <main class="wrap">
 
-<p><b style="color:#f8fafc">How penny shopping works:</b> a "penny item" is discontinued stock the store's system has dropped to $0.01. It rings up for a penny at the register even though the shelf tag still shows the old price &mdash; and stores are supposed to pull it, so a cashier can decline. Scan the barcode (Dollar General app, or the register) before counting on it. A sighting is historical: it tells you what to hunt, not that it's still there.</p>
+<p><b style="color:#1c1917">How penny shopping works:</b> a "penny item" is discontinued stock the store's system has dropped to $0.01. It rings up for a penny at the register even though the shelf tag still shows the old price &mdash; and stores are supposed to pull it, so a cashier can decline. Scan the barcode (Dollar General app, or the register) before counting on it. A sighting is historical: it tells you what to hunt, not that it's still there.</p>
 
 <section class="card" id="searchbar" style="margin:18px 0 0">
   <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-    <input id="q" type="search" placeholder="Search deals &mdash; cooler, coax, toilet&hellip;" style="flex:1;min-width:200px;background:#0b1220;border:1px solid #1e293b;border-radius:8px;color:#e2e8f0;padding:10px 14px;font:inherit">
+    <input id="q" type="search" placeholder="Search deals &mdash; cooler, coax, toilet&hellip;" style="flex:1;min-width:200px;background:#fffefb;border:1px solid #f1ede5;border-radius:8px;color:#292420;padding:10px 14px;font:inherit">
     <form id="zipform" style="display:flex;gap:8px;margin:0">
-      <input id="zip" inputmode="numeric" maxlength="5" placeholder="ZIP" style="width:110px;background:#0b1220;border:1px solid #1e293b;border-radius:8px;color:#e2e8f0;padding:10px 14px;font:inherit">
-      <button type="submit" style="background:#1e293b;color:#7dd3fc;border:1px solid #334155;border-radius:8px;padding:10px 16px;font:inherit;cursor:pointer">Near me</button>
+      <input id="zip" inputmode="numeric" maxlength="5" placeholder="ZIP" style="width:110px;background:#fffefb;border:1px solid #f1ede5;border-radius:8px;color:#292420;padding:10px 14px;font:inherit">
+      <button type="submit" style="background:#f1ede5;color:#1a56db;border:1px solid #c9c2b6;border-radius:8px;padding:10px 16px;font:inherit;cursor:pointer">Near me</button>
     </form>
   </div>
   <p id="searchstatus" class="note" style="margin:10px 0 0">Type to filter every list on this page. Enter a ZIP to see how far each tracked Lowe's store is.</p>
   <p id="zipresult" class="note" style="margin:6px 0 0;display:none"></p>
   <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px">
     <span class="note" style="margin:0">Search the same keyword on the web:</span>
-    <button class="webbtn" data-site="slickdeals" style="background:#0b1220;color:#7dd3fc;border:1px solid #334155;border-radius:8px;padding:8px 12px;font:inherit;cursor:pointer">Slickdeals</button>
-    <button class="webbtn" data-site="google" style="background:#0b1220;color:#7dd3fc;border:1px solid #334155;border-radius:8px;padding:8px 12px;font:inherit;cursor:pointer">Google Shopping</button>
-    <button class="webbtn" data-site="camel" style="background:#0b1220;color:#7dd3fc;border:1px solid #334155;border-radius:8px;padding:8px 12px;font:inherit;cursor:pointer">Camelcamelcamel</button>
-    <button class="webbtn" data-site="ebay" style="background:#0b1220;color:#7dd3fc;border:1px solid #334155;border-radius:8px;padding:8px 12px;font:inherit;cursor:pointer">eBay</button>
+    <button class="webbtn" data-site="slickdeals" style="background:#fffefb;color:#1a56db;border:1px solid #c9c2b6;border-radius:8px;padding:8px 12px;font:inherit;cursor:pointer">Slickdeals</button>
+    <button class="webbtn" data-site="google" style="background:#fffefb;color:#1a56db;border:1px solid #c9c2b6;border-radius:8px;padding:8px 12px;font:inherit;cursor:pointer">Google Shopping</button>
+    <button class="webbtn" data-site="camel" style="background:#fffefb;color:#1a56db;border:1px solid #c9c2b6;border-radius:8px;padding:8px 12px;font:inherit;cursor:pointer">Camelcamelcamel</button>
+    <button class="webbtn" data-site="ebay" style="background:#fffefb;color:#1a56db;border:1px solid #c9c2b6;border-radius:8px;padding:8px 12px;font:inherit;cursor:pointer">eBay</button>
   </div>
   <div style="display:flex;gap:8px;align-items:center;margin-top:10px">
     <label class="note" for="sortsel" style="margin:0">Sort finds:</label>
-    <select id="sortsel" style="background:#0b1220;border:1px solid #334155;border-radius:8px;color:#e2e8f0;padding:8px 12px;font:inherit">
+    <select id="sortsel" style="background:#fffefb;border:1px solid #c9c2b6;border-radius:8px;color:#292420;padding:8px 12px;font:inherit">
       <option value="newest">Newest</option>
       <option value="price">Price low to high</option>
       <option value="distance">Nearest (needs ZIP)</option>
@@ -105,23 +101,23 @@
 </section>
 
 <section class="card" id="watchcard" style="display:none">
-  <b style="color:#f8fafc">Your watchlist</b>
+  <b style="color:#1c1917">Your watchlist</b>
   <p class="note" style="margin:4px 0 8px">Saved on this device only. Text Fo what you're hunting and the Tue/Fri watch chases it across the lists and pings you when it surfaces.</p>
   <div id="watchlist"></div>
 </section>
 
 <h2>This week&rsquo;s finds</h2>
 <div class="card" id="finds">
-  <p data-date="2026-10-27" data-price="0.04" data-store="clarkstown"><span class="name" style="color:#e2e8f0">1. Southwire RG6 coax at 4&cent;/ft (Lowe's).</span> Real cable for jobs at a rate you'll never see again, and the nearest named sighting to you is Clarkstown/Nanuet #2249. Call ahead or scan before driving.</p>
-  <p data-date="2026-11-24" data-price="0.01" data-store=""><span class="name" style="color:#e2e8f0">2. New Dollar General penny list in stores today (Tue Nov 24).</span> A cereal and candy wave: two Lucky Charms flavors, Bluey cereal, Golden Crisp, Frosted Flakes Freeze Dried Strawberry, Sweet Smiles candy and Clover Valley trail mixes, all 1&cent;. Full list with UPCs in the Dollar General section &mdash; the coolers and yard tools from last week's list may still be out too.</p>
-  <p data-date="2026-11-20" data-price="0.01" data-store=""><span class="name" style="color:#e2e8f0">3. Igloo Playmate 22-can cooler at 1&cent; (Dollar General).</span> Sells for ~$25 at Walmart; any DG Tuesday morning hunt is worth checking the cooler aisle.</p>
-  <p data-date="2026-11-16" data-price="0.01" data-store=""><span class="name" style="color:#e2e8f0">4. Glacier Bay N2316 toilet at 1&cent; (Home Depot).</span> A $200+ toilet for a penny if a wave is still live near you &mdash; scan the boxes in the overhead at the bath aisle, nearest sources on the ZIP-search link in the Home Depot section.</p>
-  <p data-date="2026-11-20" data-price="0.01" data-store=""><span class="name" style="color:#e2e8f0">5. True Living shovel, rake and tiller at 1&cent; (Dollar General).</span> Basic yard tools for the truck, effectively free.</p>
-  <p data-date="2026-11-24" data-price="2300.00" data-store=""><span class="name" style="color:#e2e8f0">6. Black Friday tech wave is live.</span> A Legion RTX 5070 Ti gaming PC at $2,300, a 75" 4K Fire TV at $350 and a Surface Pro with keyboard at $1,000 lead this morning's tech finds &mdash; all in the Tech deals section.</p>
+  <p data-date="2026-10-27" data-price="0.04" data-store="clarkstown"><span class="name" style="color:#292420">1. Southwire RG6 coax at 4&cent;/ft (Lowe's).</span> Real cable for jobs at a rate you'll never see again, and the nearest named sighting to you is Clarkstown/Nanuet #2249. Call ahead or scan before driving.</p>
+  <p data-date="2026-11-24" data-price="0.01" data-store=""><span class="name" style="color:#292420">2. New Dollar General penny list in stores today (Tue Nov 24).</span> A cereal and candy wave: two Lucky Charms flavors, Bluey cereal, Golden Crisp, Frosted Flakes Freeze Dried Strawberry, Sweet Smiles candy and Clover Valley trail mixes, all 1&cent;. Full list with UPCs in the Dollar General section &mdash; the coolers and yard tools from last week's list may still be out too.</p>
+  <p data-date="2026-11-20" data-price="0.01" data-store=""><span class="name" style="color:#292420">3. Igloo Playmate 22-can cooler at 1&cent; (Dollar General).</span> Sells for ~$25 at Walmart; any DG Tuesday morning hunt is worth checking the cooler aisle.</p>
+  <p data-date="2026-11-16" data-price="0.01" data-store=""><span class="name" style="color:#292420">4. Glacier Bay N2316 toilet at 1&cent; (Home Depot).</span> A $200+ toilet for a penny if a wave is still live near you &mdash; scan the boxes in the overhead at the bath aisle, nearest sources on the ZIP-search link in the Home Depot section.</p>
+  <p data-date="2026-11-20" data-price="0.01" data-store=""><span class="name" style="color:#292420">5. True Living shovel, rake and tiller at 1&cent; (Dollar General).</span> Basic yard tools for the truck, effectively free.</p>
+  <p data-date="2026-11-24" data-price="2300.00" data-store=""><span class="name" style="color:#292420">6. Black Friday tech wave is live.</span> A Legion RTX 5070 Ti gaming PC at $2,300, a 75" 4K Fire TV at $350 and a Surface Pro with keyboard at $1,000 lead this morning's tech finds &mdash; all in the Tech deals section.</p>
 </div>
 
 
-<h2>Tech deals</h2>
+<h2 id="tech">Tech deals</h2>
 <p class="note">Since Siebert Services lives in tech: the dollar-store penny lists are mostly seasonal stock, so real tech deals come from clearance cycles and price tracking. The Tue/Fri watch hunts tech finds across every store — Micro Center open box, Best Buy open box, Newegg, Jawa, Slickdeals, plus tech-adjacent pennies (cabling, electrical, tools) — and posts the actual finds here.</p>
 
 <div class="card">
@@ -140,24 +136,24 @@
   <div class="item"><div><span class="name">Keepa &mdash; price history for electronics</span><div class="meta"><a href="https://keepa.com/">keepa.com</a> &mdash; a "sale" is only a deal if it's below what the item usually costs; Keepa shows the whole history</div></div><span class="price">watch</span></div>
 </div>
 
-<h2>Price history check</h2>
+<h2 id="keepa">Price history check</h2>
 <p class="note">Before you call an Amazon "sale" a deal: paste the product link or ASIN and jump straight to its full price history. Keepa stopped serving free charts to other sites, so this opens the chart page itself &mdash; camelcamelcamel (free, no account) or Keepa.</p>
 <div class="card">
   <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-    <input id="keepa-in" type="text" placeholder="Amazon product link or ASIN" style="flex:1;min-width:220px;background:#0b1220;border:1px solid #1e293b;border-radius:8px;color:#e2e8f0;padding:10px 14px;font:inherit">
-    <button id="keepa-go" style="background:#1e293b;color:#7dd3fc;border:1px solid #334155;border-radius:8px;padding:10px 16px;font:inherit;cursor:pointer">Show price history</button>
+    <input id="keepa-in" type="text" placeholder="Amazon product link or ASIN" style="flex:1;min-width:220px;background:#fffefb;border:1px solid #f1ede5;border-radius:8px;color:#292420;padding:10px 14px;font:inherit">
+    <button id="keepa-go" style="background:#f1ede5;color:#1a56db;border:1px solid #c9c2b6;border-radius:8px;padding:10px 16px;font:inherit;cursor:pointer">Show price history</button>
   </div>
   <div id="keepa-out" style="display:none;margin-top:14px;text-align:center">
     <div class="meta">Product ID: <b id="keepa-asin"></b></div>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px">
       <a id="camel-go" target="_blank" rel="noopener" style="background:#10b981;color:#04241a;border:1px solid #10b981;border-radius:8px;padding:10px 16px;font:inherit;text-decoration:none">Open price history on camelcamelcamel</a>
-      <a id="keepa-link" target="_blank" rel="noopener" style="background:#1e293b;color:#7dd3fc;border:1px solid #334155;border-radius:8px;padding:10px 16px;font:inherit;text-decoration:none">Open on Keepa</a>
+      <a id="keepa-link" target="_blank" rel="noopener" style="background:#f1ede5;color:#1a56db;border:1px solid #c9c2b6;border-radius:8px;padding:10px 16px;font:inherit;text-decoration:none">Open on Keepa</a>
     </div>
   </div>
   <div id="keepa-err" class="meta" style="display:none;margin-top:10px;color:#f87171">Couldn't read a product ID out of that. Paste the Amazon product page URL (like amazon.com/dp/B0XXXXXXXXX) or just the 10-character ASIN.</div>
 </div>
 
-<h2>Lowe's &mdash; November penny list</h2>
+<h2 id="lowes">Lowe's &mdash; November penny list</h2>
 <p class="note">126 entries, 1&cent;&ndash;6&cent;, sightings Oct 18&ndash;Nov 20 &middot; full list with photos: <a href="https://clearancefinds.com/alerts/lowes-penny-list-november-2026/">clearancefinds.com/alerts/lowes-penny-list-november-2026</a> (printable PDF there too). Biggest buckets: flooring &amp; tile (36), electrical (19), tools (15), lawn &amp; garden (11), building supplies (11).</p>
 
 <div class="card">
@@ -176,7 +172,7 @@
 </div>
 <p class="note">Closest sightings to Washingtonville are the Southwire coax at Clarkstown (#2249, Nanuet) and the mosaic tile at Medford NY (Long Island). Everything else on this list has only southern or midwest sightings so far.</p>
 
-<h2>Home Depot &mdash; penny finds</h2>
+<h2 id="homedepot">Home Depot &mdash; penny finds</h2>
 <p class="note">No official list: Home Depot never publishes one and the $0.01 price never shows online, so every list is shoppers' register reports. Community sources: <a href="https://endless.page/deals/home-depot/penny-list/">endless.page's list, searchable by ZIP</a> and <a href="https://pennypinchinmom.com/home-depot-penny-list/">Penny Pinchin' Mom's weekly list</a>. Scan the UPC at self-checkout; the register is the final word.</p>
 
 <div class="card">
@@ -184,8 +180,8 @@
   <div class="item"><div><span class="name">PVC-coated trim coil (ATC2404H), full roll, siding aisle</span><div class="meta">receipt-confirmed $0.01 on Nov 16; listing already pulled from homedepot.com</div></div><span class="price">1&cent;</span></div>
 </div>
 
-<h2>Dollar General &mdash; penny list</h2>
-<p class="note">New markdowns land Tuesday mornings. <b style="color:#e2e8f0">Fresh list in stores today (Tue Nov 24, posted Mon Nov 23):</b> <a href="https://pennypinchinmom.com/dollar-general-penny-list/">pennypinchinmom.com/dollar-general-penny-list</a> &middot; live auto-rebuilt database (49,500+ penny SKUs, updated daily): <a href="https://pennytree.org/">pennytree.org</a> &middot; printable list from Pennypinchin Mom.</p>
+<h2 id="dg">Dollar General &mdash; penny list</h2>
+<p class="note">New markdowns land Tuesday mornings. <b style="color:#292420">Fresh list in stores today (Tue Nov 24, posted Mon Nov 23):</b> <a href="https://pennypinchinmom.com/dollar-general-penny-list/">pennypinchinmom.com/dollar-general-penny-list</a> &middot; live auto-rebuilt database (49,500+ penny SKUs, updated daily): <a href="https://pennytree.org/">pennytree.org</a> &middot; printable list from Pennypinchin Mom.</p>
 
 <div class="card">
   <div class="item"><div><span class="name">Lucky Charms Berry Charms 10.9 oz &middot; Rainbow Sprinkles 10.9 oz</span><div class="meta">UPC 016000209299 / 016000228450</div></div><span class="price">1&cent;</span></div>
@@ -208,11 +204,11 @@
   <div class="item"><div><span class="name">Black Flag bug zapper racket &amp; disposable fly trap &middot; citronella LED candle</span><div class="meta">UPC 850075229239 / 891549110394 / 8161010137</div></div><span class="price">1&cent;</span></div>
   <div class="item"><div><span class="name">Beach towels (cotton &amp; microfiber, ~20 styles)</span><div class="meta">UPCs 430002347xxx range</div></div><span class="price">1&cent;</span></div>
 </div>
-<p class="note">Plus a back-to-school <b style="color:#e2e8f0">hardware</b> block with 132 UPCs identified so far, and the Nov 17 list added food items. Pro tip from the community: DG stores in a remodel run their markdown waves on a ~25-day Sunday clock instead of Tuesday.</p>
+<p class="note">Plus a back-to-school <b style="color:#292420">hardware</b> block with 132 UPCs identified so far, and the Nov 17 list added food items. Pro tip from the community: DG stores in a remodel run their markdown waves on a ~25-day Sunday clock instead of Tuesday.</p>
 
-<h2>Walmart &mdash; clearance &amp; hidden markdowns</h2>
+<h2 id="walmart">Walmart &mdash; clearance &amp; hidden markdowns</h2>
 <div class="card">
-  <p><span class="name" style="color:#e2e8f0">Walmart runs clearance, not pennies.</span> Markdowns show as yellow "reduced" stickers, and unadvertised hidden clearance can ring at 1&cent;&ndash;$3 when the barcode scans lower than the tag. There is no official list: it's a hunt. The free route is the Walmart app &mdash; open any clearance sticker's barcode scanner to see the real price before you commit.</p>
+  <p><span class="name" style="color:#292420">Walmart runs clearance, not pennies.</span> Markdowns show as yellow "reduced" stickers, and unadvertised hidden clearance can ring at 1&cent;&ndash;$3 when the barcode scans lower than the tag. There is no official list: it's a hunt. The free route is the Walmart app &mdash; open any clearance sticker's barcode scanner to see the real price before you commit.</p>
   <p class="note">Start at <a href="https://www.walmart.com/search?q=clearance">walmart.com's clearance search</a>. The Tue/Fri watch checks Walmart and Target clearance alongside the penny lists from the next run.</p>
 </div>
 
@@ -226,7 +222,7 @@
 <h2>CVS &amp; Walgreens</h2>
 <p class="note">Both run real penny programs: CVS marks discontinued stock to $0.01 and Walgreens runs final markdowns, and penny hunters publish weekly lists for each. These are now tracked in the Tuesday/Friday watch alongside Lowe's, Home Depot, Dollar General, Family Dollar and Dollar Tree. Good sources: <a href="https://pennypinchinmom.com/">Penny Pinchin' Mom</a> and <a href="https://thefreebieguy.com/">The Freebie Guy</a>. First finds get their own rows here as they land.</p>
 
-<h2>Major price drops</h2>
+<h2 id="drops">Major price drops</h2>
 <p class="note">The biggest was-to-now drops on the front pages &mdash; refreshed every Tue/Fri with the penny watch. Posted Wed Nov 25.</p>
 <div class="card">
   <div class="item"><div><span class="name">Apple Watch Series 11 46mm, GPS+Cellular, natural Milanese loop</span><div class="meta"><a href="https://slickdeals.net/f/20391501-399-50-for-apple-watch-series-11-gps-cellular-46mm-smartwatch-with-natural-titanium-case-with-natural-milanese-loop-s-m">Slickdeals &rarr; Walmart</a> &middot; was $799</div></div><span class="price">$399.50 <span class="off">50% off</span></span></div>
@@ -295,7 +291,7 @@
     var d=STORES.map(function(s){return{name:s.name,d:miles(c,s)}}).sort(function(a,b){return a.d-b.d});
     var parts=d.map(function(x){return x.name+' '+x.d.toFixed(0)+' mi'});
     zipresult.style.display='';
-    zipresult.innerHTML='From <b style="color:#f8fafc">'+z+'</b> (as the crow flies): '+parts.join(' &middot; ')+' &mdash; Dollar General, Family Dollar and CVS penny lists run chain-wide, so the nearest store of those chains carries the same list.';
+    zipresult.innerHTML='From <b style="color:#1c1917">'+z+'</b> (as the crow flies): '+parts.join(' &middot; ')+' &mdash; Dollar General, Family Dollar and CVS penny lists run chain-wide, so the nearest store of those chains carries the same list.';
   }
   zipform.addEventListener('submit',function(e){
     e.preventDefault();
@@ -336,14 +332,14 @@
     if(dt){
       var old=(Date.now()-new Date(dt+'T12:00:00').getTime())>21*864e5;
       var tag=document.createElement('span');
-      tag.style.cssText='font-size:12px;color:#94a3b8;margin-left:6px';
+      tag.style.cssText='font-size:12px;color:#6f675c;margin-left:6px';
       tag.textContent='\u00b7 seen '+fmtDate(dt)+(old?' \u00b7 stale, verify before driving':'');
       p.appendChild(tag);
       if(old){p.style.opacity='0.55';}
     }
     var sh=document.createElement('button');
     sh.textContent='Share';
-    sh.style.cssText='background:#0b1220;color:#7dd3fc;border:1px solid #334155;border-radius:8px;padding:4px 10px;font:inherit;cursor:pointer;font-size:13px;margin-left:8px';
+    sh.style.cssText='background:#fffefb;color:#1a56db;border:1px solid #c9c2b6;border-radius:8px;padding:4px 10px;font:inherit;cursor:pointer;font-size:13px;margin-left:8px';
     sh.addEventListener('click',function(){
       var txt=p.textContent.replace(/\s+/g,' ').trim();
       if(navigator.share){navigator.share({title:'Deal watch',text:txt,url:location.href}).catch(function(){});}
@@ -426,7 +422,7 @@
         try{
           var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
           svg.className='upcline';
-          JsBarcode(svg, code, {format: code.length===13?'EAN13':'UPC', width:1.1, height:34, fontSize:10, margin:2, background:'#111a2e', lineColor:'#7dd3fc'});
+          JsBarcode(svg, code, {format: code.length===13?'EAN13':'UPC', width:1.1, height:34, fontSize:10, margin:2, background:'#111a2e', lineColor:'#1a56db'});
           svg.title='Tap to copy UPC '+code;
           svg.addEventListener('click',function(){if(navigator.clipboard)navigator.clipboard.writeText(code);});
           meta.appendChild(svg);
@@ -452,7 +448,7 @@
     a.className='checklink';
     a.textContent='\u00b7 check online';
     a.href=href; a.target='_blank'; a.rel='noopener';
-    a.style.cssText='color:#7dd3fc;font-size:13px;margin-left:8px';
+    a.style.cssText='color:#1a56db;font-size:13px;margin-left:8px';
     it.appendChild(a);
   });
 })();
